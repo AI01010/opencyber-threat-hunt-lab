@@ -48,8 +48,28 @@ echo
 INIT_SENTINEL="/opt/splunk/var/.lab-initialized"
 
 if [ ! -f "$INIT_SENTINEL" ]; then
-    /opt/splunk/bin/splunk edit licenser-groups -name "Free" -is_active "1" \
-        -auth 'admin:codepath' > /dev/null
+    # The management API can take a few extra seconds after splunk status reports ready.
+    # Retry until the license command succeeds, restart to apply it, then set the sentinel.
+    echo -n "Configuring license"
+    for i in 1 2 3 4 5 6; do
+        if /opt/splunk/bin/splunk edit licenser-groups -name "Free" -is_active "1" \
+            -auth 'admin:codepath' > /dev/null 2>&1; then
+            break
+        fi
+        printf '.'
+        sleep 5
+    done
+    echo
+
+    echo "Restarting Splunk to apply license..."
+    /opt/splunk/bin/splunk restart > /dev/null 2>&1
+    echo -n "Waiting for Splunk to restart"
+    until /opt/splunk/bin/splunk status 2>/dev/null | grep -q 'is running'; do
+        printf '.'
+        sleep 3
+    done
+    echo
+
     touch "$INIT_SENTINEL"
 fi
 

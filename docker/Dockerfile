@@ -27,6 +27,12 @@ RUN wget -qO /tmp/splunk.deb \
 RUN printf '[user_info]\nUSERNAME = admin\nPASSWORD = codepath\n' \
       > /opt/splunk/etc/system/local/user-seed.conf
 
+# 4. Ensure the lab sentinel is never baked into the image.
+#    Splunk's installer may leave files in /opt/splunk/var that get copied into
+#    fresh named volumes on first use — if the sentinel exists there, the
+#    first-run license activation in the entrypoint would be silently skipped.
+RUN rm -f /opt/splunk/var/.lab-initialized
+
 EXPOSE 8000
 
 COPY --chmod=755 docker/entrypoint.sh /usr/local/bin/entrypoint.sh
