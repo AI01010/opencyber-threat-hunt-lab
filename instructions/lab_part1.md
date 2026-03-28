@@ -7,7 +7,7 @@ Lab Parts:
 0. [Set up the lab environment using Docker.](./lab_part0.md)
 1. [Learn: Threat Intelligence Feeds](./lab_part1.md) (✅ You are here!)
 2. [Apply: Hunting for TOR Activity](./lab_part2.md)
-3. [Challenge: A Study in Sapphire](./lab_part3.md)
+3. [Challenge: Real-World Threat Hunting](./lab_part3.md)
 
 ## Part 1 | Learn: Threat Intelligence Feeds
 
@@ -60,7 +60,7 @@ For this lab, we'll work with a feed of IP addresses associated with the **TOR n
 ### Step 2: Upload the Feed to Splunk
 
 > [!NOTE]
-> If you're resuming a previous session, this file may already be in Splunk. Run the search below with **All Time** selected before uploading — if you get results, skip ahead to Step 3.
+> If you're resuming a previous session, this file may already be in Splunk. Run the search below with **All Time** selected before uploading — if the count is 0, proceed with the upload. Otherwise, skip ahead to Step 3.
 >
 > ```SPL
 > source="TorList.csv" | stats count
@@ -111,6 +111,10 @@ You should see fields including `IP Address`, `Country`, and possibly others. Th
 - [ ] How many events (IP addresses) are in this feed? Note the count — you'll reference it later.
 
 - [ ] Try a few searches to explore the data:
+
+> [!TIP]
+> If these return 0 results, switch the search mode from **Smart** to **Verbose** using the dropdown next to the search bar. Smart mode sometimes skips field extraction for exploratory searches.
+
   - Which countries have the most TOR exit nodes? (`| stats count by Country | sort -count`)
   - Are any IP addresses duplicated in the feed?
 

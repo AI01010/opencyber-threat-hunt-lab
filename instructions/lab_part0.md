@@ -7,7 +7,7 @@ Lab Parts:
 0. [Set up the lab environment using Docker.](./lab_part0.md) (✅ You are here!)
 1. [Learn: Threat Intelligence Feeds](./lab_part1.md)
 2. [Apply: Hunting for TOR Activity](./lab_part2.md)
-3. [Challenge: A Study in Sapphire](./lab_part3.md)
+3. [Challenge: Real-World Threat Hunting](./lab_part3.md)
 
 ## Part 0 | Set up the lab environment using Docker
 
