@@ -6,7 +6,7 @@ Lab Parts:
 
 0. [Set up the lab environment using Docker.](./lab_part0.md) (✅ You are here!)
 1. [Learn: Threat Intelligence Feeds](./lab_part1.md)
-2. [Apply: Hunting for TOR Activity](./lab_part2.md)
+2. [Apply: Hunting for Tor Activity](./lab_part2.md)
 3. [Challenge: Real-World Threat Hunting](./lab_part3.md)
 
 ## Part 0 | Set up the lab environment using Docker
@@ -48,6 +48,13 @@ If you can see the Splunk home screen, you are ready to [**proceed to Part 1**](
 
 > [!IMPORTANT]
 > Keep your terminal open for the entire lab — closing it stops the container. Data you upload **persists between sessions** via the named volume, so you can safely stop and restart without losing progress.
+
+> [!TIP]
+> If you want to reset the lab and start fresh with a clean Splunk instance, stop the container and run:
+> ```bash
+> docker volume rm threat-hunt-data
+> ```
+> The next time you run `docker run`, a new empty volume will be created automatically.
 
 > [!TIP]
 > If you see a warning about `FROM --platform flag should not use constant value "linux/amd64"` during the build, you can safely ignore it. This is intentional — Splunk Enterprise has no native arm64 package, so we pin to amd64 explicitly. It runs fine on Apple Silicon under Rosetta 2.

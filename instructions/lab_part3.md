@@ -6,7 +6,7 @@ Lab Parts:
 
 0. [Set up the lab environment using Docker.](./lab_part0.md)
 1. [Learn: Threat Intelligence Feeds](./lab_part1.md)
-2. [Apply: Hunting for TOR Activity](./lab_part2.md)
+2. [Apply: Hunting for Tor Activity](./lab_part2.md)
 3. [Challenge: Real-World Threat Hunting](./lab_part3.md) (✅ You are here!)
 
 ## Part 3 | Challenge: Real-World Threat Hunting
@@ -39,8 +39,8 @@ Download both files to your computer before starting:
 
 | File | Description | Download |
 |---|---|---|
-| `SolarWindsIOCs.csv` | Known IP addresses associated with the SolarWinds attack | [Download](https://raw.githubusercontent.com/codepath/cyb102-file-storage/main/SolarWindsIOCs.csv) |
-| `NetworkProxyLog_SolarWinds.csv` | Network proxy logs from PathCode Inc. (2020) | [Download](https://raw.githubusercontent.com/codepath/cyb102-file-storage/main/NetworkProxyLog_SolarWinds.csv) |
+| `IOCs_SolarWinds.csv` | Known IP addresses associated with the SolarWinds attack | [Download](https://raw.githubusercontent.com/codepath/cyb102-file-storage/main/threat-hunt/IOCs_SolarWinds.csv) |
+| `TrafficLog_SolarWinds.csv` | Network proxy logs from PathCode Inc. (2020) | [Download](https://raw.githubusercontent.com/codepath/cyb102-file-storage/main/threat-hunt/TrafficLog_SolarWinds.csv) |
 
 *(Right-click each link and choose "Save link as..." to download.)*
 
@@ -50,26 +50,29 @@ Download both files to your computer before starting:
 > If you're resuming a previous session, these files may already be in Splunk. Run each search below with **All Time** selected before uploading — if the count is 0, proceed with the upload. Otherwise, skip that file.
 >
 > ```SPL
-> source="SolarWindsIOCs.csv" | stats count
+> source="IOCs_SolarWinds.csv" | stats count
 > ```
 >
 > ```SPL
-> source="NetworkProxyLog_SolarWinds.csv" | stats count
+> source="TrafficLog_SolarWinds.csv" | stats count
 > ```
 
-- [ ] Upload `SolarWindsIOCs.csv` to Splunk using **Settings → Add Data → Upload**.
+- [ ] Upload `IOCs_SolarWinds.csv` to Splunk using **Settings → Add Data → Upload**.
   - Accept all defaults.
-- [ ] Upload `NetworkProxyLog_SolarWinds.csv` the same way.
+- [ ] Upload `TrafficLog_SolarWinds.csv` the same way.
 - [ ] Confirm both are searchable:
 
   ```SPL
-  source="SolarWindsIOCs.csv" OR source="NetworkProxyLog_SolarWinds.csv"
+  source="IOCs_SolarWinds.csv" OR source="TrafficLog_SolarWinds.csv"
   ```
 
 🎯 **Checkpoint 1**: Both datasets should return events.
 
 > [!TIP]
-> Before jumping to the correlation search, spend a few minutes exploring each file separately. What fields does `SolarWindsIOCs.csv` have? What fields does `NetworkProxyLog_SolarWinds.csv` share with it? The shared field is what makes the correlation possible.
+> If your searches return 0 results, check two things: make sure the time range picker is set to **All Time**, and switch the search mode from **Smart** to **Verbose**. Smart mode sometimes skips field extraction for exploratory searches.
+
+> [!TIP]
+> Before jumping to the correlation search, spend a few minutes exploring each file separately. What fields does `IOCs_SolarWinds.csv` have? What fields does `TrafficLog_SolarWinds.csv` share with it? The shared field is what makes the correlation possible.
 
 ### Step 2: Hunt for Compromised Systems
 
@@ -115,7 +118,7 @@ Threat intelligence ages. An IP that was actively malicious in 2020 may have bee
 ### Step 5: Build a Monitoring Dashboard
 
 - [ ] Create a new Splunk dashboard titled **"SolarWinds IOC Monitor"** (choose **Classic Dashboards** when prompted).
-- [ ] Add a panel using your enriched correlation search, showing any matches between `SolarWindsIOCs.csv` and `NetworkProxyLog_SolarWinds.csv`.
+- [ ] Add a panel using your enriched correlation search, showing any matches between `IOCs_SolarWinds.csv` and `TrafficLog_SolarWinds.csv`.
   - Set the time range to **All Time** for this static dataset.
   - Select **Statistics Table** as the visualization.
 - [ ] Save the dashboard.
@@ -136,8 +139,8 @@ In 2024, PathCode's security team identified suspicious outbound connections in 
 
 | File | Description | Download |
 |---|---|---|
-| `ScatteredSpiderIOCs.csv` | Known indicators of compromise from Scattered Spider campaigns | [Download](https://raw.githubusercontent.com/codepath/cyb102-file-storage/main/ScatteredSpiderIOCs.csv) |
-| `NetworkProxyLog_ScatteredSpider.csv` | Network proxy logs from PathCode Inc. (2024) | [Download](https://raw.githubusercontent.com/codepath/cyb102-file-storage/main/NetworkProxyLog_ScatteredSpider.csv) |
+| `IOCs_ScatteredSpider.csv` | Known indicators of compromise from Scattered Spider campaigns | [Download](https://raw.githubusercontent.com/codepath/cyb102-file-storage/main/threat-hunt/IOCs_ScatteredSpider.csv) |
+| `TrafficLog_ScatteredSpider.csv` | Network proxy logs from PathCode Inc. (2024) | [Download](https://raw.githubusercontent.com/codepath/cyb102-file-storage/main/threat-hunt/TrafficLog_ScatteredSpider.csv) |
 
 *(Right-click each link and choose "Save link as..." to download.)*
 
@@ -147,19 +150,19 @@ In 2024, PathCode's security team identified suspicious outbound connections in 
 > If you're resuming a previous session, these files may already be in Splunk. Run each search below with **All Time** selected before uploading — if the count is 0, proceed with the upload. Otherwise, skip that file.
 >
 > ```SPL
-> source="ScatteredSpiderIOCs.csv" | stats count
+> source="IOCs_ScatteredSpider.csv" | stats count
 > ```
 >
 > ```SPL
-> source="NetworkProxyLog_ScatteredSpider.csv" | stats count
+> source="TrafficLog_ScatteredSpider.csv" | stats count
 > ```
 
-- [ ] Upload `ScatteredSpiderIOCs.csv` to Splunk.
-- [ ] Upload `NetworkProxyLog_ScatteredSpider.csv` the same way.
+- [ ] Upload `IOCs_ScatteredSpider.csv` to Splunk.
+- [ ] Upload `TrafficLog_ScatteredSpider.csv` the same way.
 - [ ] Confirm both are searchable:
 
   ```SPL
-  source="ScatteredSpiderIOCs.csv" OR source="NetworkProxyLog_ScatteredSpider.csv"
+  source="IOCs_ScatteredSpider.csv" OR source="TrafficLog_ScatteredSpider.csv"
   ```
 
 🎯 **Checkpoint 5**: Both datasets return events.
@@ -204,3 +207,13 @@ You've now completed two investigations using the same fundamental technique aga
 > There's no single correct answer here. What matters is that your analysis reflects what you actually found in the data and shows you thought about what it means.
 
 🎯 **Checkpoint 8**: You have a written analysis that synthesizes findings from both investigations.
+
+---
+
+### Tips for Success
+
+- **Getting 0 results from a search?** Check two things: make sure the time range picker is set to **All Time**, and switch the search mode from **Smart** to **Verbose**. Smart mode sometimes skips field extraction for exploratory searches.
+- **Not sure what fields are available?** Run a bare search (e.g., `source="IOCs_SolarWinds.csv"`) and open the **Interesting Fields** panel on the left. This shows every field Splunk parsed from your data — useful for finding the shared field before writing a correlation search.
+- **Correlation search returning nothing?** The join field has to match exactly — including case and spacing. If `IP Address` in one file is stored as `ip_address` in another, the join will silently fail. Check field names in both datasets separately before combining them.
+- **VirusTotal showing "clean" for a known malicious IP?** That's expected and worth noting in your analysis. Threat actors rotate infrastructure quickly — an IP flagged in 2020 may be legitimately reassigned by now. The age of the IOC matters.
+- **Splunk dashboard panel showing no data?** Make sure your search uses **All Time** — dashboard panels default to a shorter time window that may exclude your uploaded data.

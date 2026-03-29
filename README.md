@@ -22,7 +22,7 @@ The Threat Hunt Lab teaches you how to use threat intelligence feeds to proactiv
 
 0. [Set up the lab environment using Docker.](./instructions/lab_part0.md)
 1. [Learn: Threat Intelligence Feeds](./instructions/lab_part1.md)
-2. [Apply: Hunting for TOR Activity](./instructions/lab_part2.md)
+2. [Apply: Hunting for Tor Activity](./instructions/lab_part2.md)
 3. [Challenge: Real-World Threat Hunting](./instructions/lab_part3.md)
 
 ## Technical Details

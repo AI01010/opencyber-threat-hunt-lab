@@ -6,7 +6,7 @@ Lab Parts:
 
 0. [Set up the lab environment using Docker.](./lab_part0.md)
 1. [Learn: Threat Intelligence Feeds](./lab_part1.md) (✅ You are here!)
-2. [Apply: Hunting for TOR Activity](./lab_part2.md)
+2. [Apply: Hunting for Tor Activity](./lab_part2.md)
 3. [Challenge: Real-World Threat Hunting](./lab_part3.md)
 
 ## Part 1 | Learn: Threat Intelligence Feeds
@@ -51,10 +51,10 @@ Threat intelligence feeds are continuous or periodic streams of information abou
 
 ### Step 1: Download the Threat Feed
 
-For this lab, we'll work with a feed of IP addresses associated with the **TOR network** — an anonymizing network often used by privacy-conscious users, but also by threat actors trying to hide the origin of attacks.
+For this lab, we'll work with a feed of IP addresses associated with the **Tor network** — an anonymizing network often used by privacy-conscious users, but also by threat actors trying to hide the origin of attacks.
 
 - [ ] Download the threat feed file to your computer:
-  **[TorList.csv](https://raw.githubusercontent.com/codepath/cyb102-file-storage/main/TorList.csv)**
+  **[IOCs_Tor.csv](https://raw.githubusercontent.com/codepath/cyb102-file-storage/main/threat-hunt/IOCs_Tor.csv)**
   *(Right-click the link and choose "Save link as..." to download the file.)*
 
 ### Step 2: Upload the Feed to Splunk
@@ -63,14 +63,14 @@ For this lab, we'll work with a feed of IP addresses associated with the **TOR n
 > If you're resuming a previous session, this file may already be in Splunk. Run the search below with **All Time** selected before uploading — if the count is 0, proceed with the upload. Otherwise, skip ahead to Step 3.
 >
 > ```SPL
-> source="TorList.csv" | stats count
+> source="IOCs_Tor.csv" | stats count
 > ```
 
 Unlike the Splunk Fundamentals lab, this one has no pre-loaded data. That's intentional. SOC analysts import new threat feeds into their SIEM all the time, and this upload workflow is what that looks like in practice.
 
 - [ ] In Splunk, navigate to **Settings** → **Add Data**.
 - [ ] Click **Upload** (the option for uploading files from your computer).
-- [ ] Click **Select File** and choose the `TorList.csv` file you downloaded.
+- [ ] Click **Select File** and choose the `IOCs_Tor.csv` file you downloaded.
 - [ ] Click **Next**.
 
 #### Source Type
@@ -98,7 +98,7 @@ Let's see what we're working with.
 - [ ] Run the following search with **All Time** selected:
 
   ```SPL
-  source="TorList.csv"
+  source="IOCs_Tor.csv"
   ```
 
 - [ ] Expand a few events and browse the **Interesting Fields** panel on the left.
@@ -115,16 +115,16 @@ You should see fields including `IP Address`, `Country`, and possibly others. Th
 > [!TIP]
 > If these return 0 results, switch the search mode from **Smart** to **Verbose** using the dropdown next to the search bar. Smart mode sometimes skips field extraction for exploratory searches.
 
-  - Which countries have the most TOR exit nodes? (`| stats count by Country | sort -count`)
+  - Which countries have the most Tor exit nodes? (`| stats count by Country | sort -count`)
   - Are any IP addresses duplicated in the feed?
 
-🎯 **Checkpoint 2**: You should have a working sense of what the TOR feed contains — a list of known TOR network IP addresses with associated metadata.
+🎯 **Checkpoint 2**: You should have a working sense of what the Tor feed contains — a list of known Tor network IP addresses with associated metadata.
 
-### Step 4: Why Does TOR Activity Matter?
+### Step 4: Why Does Tor Activity Matter?
 
-You now have a list of known TOR IP addresses in your SIEM. On its own, that's just reference data. The power comes from **cross-referencing it against your own network logs** — which is exactly what we'll do in [Part 2](./lab_part2.md).
+You now have a list of known Tor IP addresses in your SIEM. On its own, that's just reference data. The power comes from **cross-referencing it against your own network logs** — which is exactly what we'll do in [Part 2](./lab_part2.md).
 
 > [!TIP]
-> The TOR feed is a simple example of threat intelligence. In a production environment, you'd also ingest feeds covering malware C2 infrastructure, phishing domains, and attacker infrastructure — all searchable the same way.
+> The Tor feed is a simple example of threat intelligence. In a production environment, you'd also ingest feeds covering malware C2 infrastructure, phishing domains, and attacker infrastructure — all searchable the same way.
 
-You've completed Part 1! In [Part 2](./lab_part2.md), you'll bring in network proxy logs and build a search that finds any TOR activity on your network.
+You've completed Part 1! In [Part 2](./lab_part2.md), you'll bring in network proxy logs and build a search that finds any Tor activity on your network.
