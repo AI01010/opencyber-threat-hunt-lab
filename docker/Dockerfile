@@ -23,15 +23,14 @@ RUN wget -qO /tmp/splunk.deb \
     dpkg -i /tmp/splunk.deb && \
     rm /tmp/splunk.deb
 
-# 3. Configure admin credentials
+# 3. Configure admin credentials and Free license.
+#    Both are written to /opt/splunk/etc/system/local/ at build time so they
+#    are baked into the image and apply on every container start without
+#    requiring a runtime restart or a named-volume-persisted sentinel.
 RUN printf '[user_info]\nUSERNAME = admin\nPASSWORD = codepath\n' \
-      > /opt/splunk/etc/system/local/user-seed.conf
-
-# 4. Ensure the lab sentinel is never baked into the image.
-#    Splunk's installer may leave files in /opt/splunk/var that get copied into
-#    fresh named volumes on first use — if the sentinel exists there, the
-#    first-run license activation in the entrypoint would be silently skipped.
-RUN rm -f /opt/splunk/var/.lab-initialized
+      > /opt/splunk/etc/system/local/user-seed.conf && \
+    printf '[license]\nactive_group = Free\n' \
+      > /opt/splunk/etc/system/local/server.conf
 
 EXPOSE 8000
 
