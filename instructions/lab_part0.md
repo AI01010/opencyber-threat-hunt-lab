@@ -33,7 +33,7 @@ Lab Parts:
 - [ ] Run the lab container with:
 
   ```bash
-  docker run --rm -it -p 8000:8000 -v threat-hunt-data:/opt/splunk/var ghcr.io/codepath/opencyber-threat-hunt-lab:latest
+  docker run --rm -it -p 8000:8000 -v threat-hunt-data:/opt/splunk/var --platform linux/amd64 ghcr.io/codepath/opencyber-threat-hunt-lab:latest
   ```
 
 - [ ] Splunk takes about **30–60 seconds** to initialize. Watch your terminal — when you see a "Splunk is ready!" message, proceed to the next step.
@@ -65,6 +65,6 @@ If you can see the Splunk home screen, you are ready to [**proceed to Part 1**](
 > ```bash
 > git clone https://github.com/codepath/opencyber-threat-hunt-lab.git
 > cd opencyber-threat-hunt-lab
-> docker build -t opencyber-threat-hunt-lab:local -f docker/Dockerfile .
-> docker run --rm -it -p 8000:8000 -v threat-hunt-data:/opt/splunk/var opencyber-threat-hunt-lab:local
+> docker build --platform linux/amd64 -t opencyber-threat-hunt-lab:local -f docker/Dockerfile .
+> docker run --rm -it -p 8000:8000 -v threat-hunt-data:/opt/splunk/var --platform linux/amd64 opencyber-threat-hunt-lab:local
 > ```
