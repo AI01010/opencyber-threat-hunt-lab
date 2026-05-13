@@ -55,7 +55,7 @@ For this lab, we'll work with a feed of IP addresses associated with the **Tor n
 
 - [ ] Download the threat feed file to your computer:
   **[IOCs_Tor.csv](https://raw.githubusercontent.com/codepath/cyb102-file-storage/main/threat-hunt/IOCs_Tor.csv)**
-  *(Right-click the link and choose "Save link as..." to download the file.)*
+  *(Right-click the link and choose "Save link as..." to download the file as a .csv - it will default to .txt)*
 
 ### Step 2: Upload the Feed to Splunk
 
