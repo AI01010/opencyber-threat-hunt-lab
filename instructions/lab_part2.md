@@ -53,19 +53,19 @@ A network proxy log records outbound web traffic from machines on your network �
 > source="TrafficLog_Tor.csv" | stats count
 > ```
 
-- [ ] Download the network proxy log to your computer:
+- [X] Download the network proxy log to your computer:
   **[TrafficLog_Tor.csv](https://raw.githubusercontent.com/codepath/cyb102-file-storage/main/threat-hunt/TrafficLog_Tor.csv)**
 
-- [ ] Upload it to Splunk using **Settings → Add Data → Upload**, the same way you uploaded the Tor feed in Part 1.
+- [X] Upload it to Splunk using **Settings → Add Data → Upload**, the same way you uploaded the Tor feed in Part 1.
   - You can accept all default values this time — no need to change the Host field.
 
-- [ ] Once uploaded, run a quick search to confirm the data is there:
+- [x] Once uploaded, run a quick search to confirm the data is there:
 
   ```SPL
   source="TrafficLog_Tor.csv"
   ```
-
-- [ ] Browse the **Interesting Fields** panel. Note the available fields — especially `IP Address`, `Computer Name`, `User Agent String`, `Date`, and `Time`.
+  1000
+- [X] Browse the **Interesting Fields** panel. Note the available fields — especially `IP Address`, `Computer Name`, `User Agent String`, `Date`, and `Time`.
 
 🎯 **Checkpoint 1**: You should see network proxy events, with fields representing outbound connections from machines on your network.
 
@@ -91,7 +91,7 @@ Let's build this up step by step.
 The `OR` operator lets you search multiple sources at once:
 
 ```SPL
-source="IOCs_Tor.csv" OR source="TrafficLog_Tor.csv"
+source="IOCs_Tor.csv" OR source="TrafficLog_Tor.csv" 
 ```
 
 Run this. You should see events from both files mixed together. Not useful yet — but this is the foundation.
@@ -116,6 +116,8 @@ source="IOCs_Tor.csv" OR source="TrafficLog_Tor.csv"
 | stats count by "IP Address"
 | where count > 1
 ```
+>> ANS: 140.78.100.14
+
 
 > [!NOTE]
 > `where` filters results *after* aggregation, unlike field filters that apply at search time. Think of it as the SPL equivalent of SQL's `HAVING` clause.
@@ -139,6 +141,8 @@ source="IOCs_Tor.csv" OR source="TrafficLog_Tor.csv"
 | where mvcount(sources) > 1
 | table "IP Address", ComputerName, UserAgent, Date, Time
 ```
+>> ANS: IP Address	ComputerName	UserAgent	Date	Time
+140.78.100.14	Workstation-008	Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.0.3 Safari/605.1.15	10/19/2024	15:13:37
 
 > [!NOTE]
 > `values(source) as sources` collects the source filenames for each IP into a multi-value field called `sources`. `mvcount(sources) > 1` then means "this IP appeared in more than one source file" — which is exactly what indicates a match between the threat feed and the network log.
@@ -154,15 +158,15 @@ Run this search. For each matching IP, you'll now see:
 
 In a real SOC, you wouldn't run this search manually every time — you'd have it running continuously on a dashboard, alerting you the moment new activity appears.
 
-- [ ] Navigate to **Dashboards** and create a new dashboard titled **"Threat Intelligence Monitoring"**.
+- [X] Navigate to **Dashboards** and create a new dashboard titled **"Threat Intelligence Monitoring"**.
 
 > [!NOTE]
 > Splunk will ask you to choose between **Classic Dashboards** and **Dashboard Studio**. Choose **Classic Dashboards** — the instructions below use that interface.
-- [ ] Add a panel using the enriched search from Step 4.
+- [X] Add a panel using the enriched search from Step 4.
   - Click **Add Panel** → **New** → **Statistics Table**
   - Paste in the search, set the time range to **All Time**
   - Title the panel **"Tor Activity Detected"**
-- [ ] Save the dashboard.
+- [X] Save the dashboard.
 
 > [!TIP]
 > In a production environment, this dashboard would refresh automatically as new proxy logs stream in, and you could configure alerts to notify the on-call analyst when a match is found. That's how SOCs catch threats in near-real time.
