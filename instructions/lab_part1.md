@@ -65,29 +65,30 @@ For this lab, we'll work with a feed of IP addresses associated with the **Tor n
 > ```SPL
 > source="IOCs_Tor.csv" | stats count
 > ```
-
+ = 8076
+ 
 Unlike the Splunk Fundamentals lab, this one has no pre-loaded data. That's intentional. SOC analysts import new threat feeds into their SIEM all the time, and this upload workflow is what that looks like in practice.
 
-- [ ] In Splunk, navigate to **Settings** → **Add Data**.
-- [ ] Click **Upload** (the option for uploading files from your computer).
-- [ ] Click **Select File** and choose the `IOCs_Tor.csv` file you downloaded.
-- [ ] Click **Next**.
+- [X] In Splunk, navigate to **Settings** → **Add Data**.
+- [X] Click **Upload** (the option for uploading files from your computer).
+- [X] Click **Select File** and choose the `IOCs_Tor.csv` file you downloaded.
+- [X] Click **Next**.
 
 #### Source Type
 
 Splunk needs to know how to parse the file. Since this is a CSV:
 
-- [ ] In the **Set Source Type** step, confirm the source type is set to **csv**. Splunk may auto-detect this — if so, you'll see a preview of the parsed fields. If not, search for and select `csv` manually.
-- [ ] Click **Next**.
+- [X] In the **Set Source Type** step, confirm the source type is set to **csv**. Splunk may auto-detect this — if so, you'll see a preview of the parsed fields. If not, search for and select `csv` manually.
+- [X] Click **Next**.
 
 #### Input Settings
 
 This screen lets you control how Splunk labels the incoming data.
 
-- [ ] Find the **Host** field. Change the value from the default (usually the filename) to **`Threat Feed`**.
+- [X] Find the **Host** field. Change the value from the default (usually the filename) to **`Threat Feed`**.
   - This makes it easy to distinguish threat intelligence data from operational logs when searching.
-- [ ] Leave all other settings at their defaults.
-- [ ] Click **Review**, then **Submit**.
+- [X] Leave all other settings at their defaults.
+- [X] Click **Review**, then **Submit**.
 
 🎯 **Checkpoint 1**: Splunk should confirm the upload succeeded. Click **Start Searching** to go directly to the Search & Reporting app.
 
@@ -95,28 +96,28 @@ This screen lets you control how Splunk labels the incoming data.
 
 Let's see what we're working with.
 
-- [ ] Run the following search with **All Time** selected:
+- [X] Run the following search with **All Time** selected:
 
   ```SPL
   source="IOCs_Tor.csv"
   ```
 
-- [ ] Expand a few events and browse the **Interesting Fields** panel on the left.
+- [X] Expand a few events and browse the **Interesting Fields** panel on the left.
 
 You should see fields including `IP Address`, `Country`, and possibly others. These are the columns from the CSV, parsed as searchable fields.
 
 > [!NOTE]
 > Field names that contain spaces (like `IP Address`) must be quoted in SPL searches: `"IP Address"`. You'll see this pattern throughout this lab.
 
-- [ ] How many events (IP addresses) are in this feed? Note the count — you'll reference it later.
+- [X] How many events (IP addresses) are in this feed? Note the count — you'll reference it later. 8076
 
-- [ ] Try a few searches to explore the data:
+- [X] Try a few searches to explore the data: _/
 
 > [!TIP]
 > If these return 0 results, switch the search mode from **Smart** to **Verbose** using the dropdown next to the search bar. Smart mode sometimes skips field extraction for exploratory searches.
 
-  - Which countries have the most Tor exit nodes? (`| stats count by Country | sort -count`)
-  - Are any IP addresses duplicated in the feed?
+  - Which countries have the most Tor exit nodes? (`| stats count by Country | sort -count`) No country field
+  - Are any IP addresses duplicated in the feed? Search via virustotal/abuseipdb to match ip addr to loc (note: mixed resutls)
 
 🎯 **Checkpoint 2**: You should have a working sense of what the Tor feed contains — a list of known Tor network IP addresses with associated metadata.
 
