@@ -52,15 +52,16 @@ Download both files to your computer before starting:
 > ```SPL
 > source="IOCs_SolarWinds.csv" | stats count
 > ```
->
+>>> 43
 > ```SPL
 > source="TrafficLog_SolarWinds.csv" | stats count
 > ```
+>>> 1000
 
-- [ ] Upload `IOCs_SolarWinds.csv` to Splunk using **Settings → Add Data → Upload**.
+- [X] Upload `IOCs_SolarWinds.csv` to Splunk using **Settings → Add Data → Upload**.
   - Accept all defaults.
-- [ ] Upload `TrafficLog_SolarWinds.csv` the same way.
-- [ ] Confirm both are searchable:
+- [X] Upload `TrafficLog_SolarWinds.csv` the same way.
+- [X] Confirm both are searchable:
 
   ```SPL
   source="IOCs_SolarWinds.csv" OR source="TrafficLog_SolarWinds.csv"
